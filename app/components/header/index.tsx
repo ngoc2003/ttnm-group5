@@ -2,8 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/dat-san", label: "Đặt sân" },
+    { href: "/thanh-toan", label: "Thanh toán" },
+    { href: "/quan-ly-khach-hang", label: "Quản lý khách hàng" },
+    { href: "/quan-ly-san", label: "Quản lý sân" },
+    { href: "/quan-ly-tai-khoan", label: "Quản lý tài khoản" },
+  ];
+
   return (
     <header className="flex items-center justify-between px-6 py-3 bg-white border-b shadow-sm">
       {/* Logo */}
@@ -13,14 +25,22 @@ export default function Header() {
 
       {/* Navigation */}
       <nav className="flex space-x-6 text-[16px] font-medium text-black">
-        <Link href="/" className="text-blue-600 font-semibold">
-          Home
-        </Link>
-        <Link href="/dat-san">Đặt sân</Link>
-        <Link href="/thanh-toan">Thanh toán</Link>
-        <Link href="/quan-ly-khach-hang">Quản lý khách hàng</Link>
-        <Link href="/quan-ly-san">Quản lý sân</Link>
-        <Link href="/quan-ly-tai-khoan">Quản lý tài khoản</Link>
+        {navLinks.map((link) => {
+          const isActive = pathname === link.href;
+
+          return (
+            <Link
+              key={link.href}
+              prefetch={false}
+              href={link.href}
+              className={`${
+                isActive ? "text-blue-600 font-semibold" : "text-black"
+              } hover:text-blue-600 transition`}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
       </nav>
 
       {/* User Info */}
